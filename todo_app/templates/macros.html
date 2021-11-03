@@ -1,0 +1,27 @@
+{% macro task_list(items, status) %}
+<table>
+    {%for item in items %}
+    <tr>
+        <td>
+            {{item.name}}
+        </td>
+        <td>
+            {{status}}
+        </td>
+        <td>
+            <form method="post" action="{{ url_for('delete_task') }}">
+                <button name="item_id" value="{{item.id}}" type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        </td>
+        {% if status == "Not Started" %}
+        <td>
+            <form method="post" action="{{ url_for('complete_task') }}">
+                <button name="item_id" value="{{item.id}}" type="submit" class="btn btn-success">Complete
+                    Task</button>
+            </form>
+        </td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+</table>
+{% endmacro %}

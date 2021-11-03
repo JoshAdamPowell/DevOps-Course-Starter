@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% block title %}To-Do App{% endblock %}
+{% from "macros.html" import task_list with context %}
 
 {% block content %}
   <div class="jumbotron">
@@ -11,47 +12,10 @@
     <div class="col-md-12">
       <h2>To-Do Items</h2>
       <ul class="list-group mb-4">
-        <table>
-          {%for item in incomplete_items %}
-          <tr>
-            <td>
-              {{item.name}}
-            </td>
-            <td>
-              {{item.status.value}}
-            </td>
-            <td>
-              <form method="post" action="{{ url_for('delete_task') }}">
-                <button name="item_id" value="{{item.id}}" type="submit" class="btn btn-danger">Delete</button>
-              </form>
-            </td>
-            <td>
-              <form method="post" action="{{ url_for('complete_task') }}">
-                <button name="item_id" value="{{item.id}}" type="submit" class="btn btn-success">Complete Task</button>
-              </form>
-            </td>
-          </tr>
-          {% endfor %}
-        </table>
+        {{ task_list(incomplete_items, 'Not Started')}}
         <h2>Complete Items</h2>
       <ul class="list-group mb-4">
-        <table>
-          {%for item in completed_items %}
-          <tr>
-            <td>
-              {{item.name}}
-            </td>
-            <td>
-              {{item.status.value}}
-            </td>
-            <td>
-              <form method="post" action="{{ url_for('delete_task') }}">
-                <button name="item_id" value="{{item.id}}" type="submit" class="btn btn-danger">Delete</button>
-              </form>
-            </td>
-          </tr>
-          {% endfor %}
-        </table>
+        {{ task_list(completed_items, 'Complete')}}
         <form method="post" action="{{ url_for('create_task') }}">
           <h3><label for="task_title">Add a new task</label></h3>
           <input id="task_title" name="task_title" required type="text" class="form-control">
