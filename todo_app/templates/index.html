@@ -15,10 +15,10 @@
           {%for item in incomplete_items %}
           <tr>
             <td>
-              {{item.title}}
+              {{item.name}}
             </td>
             <td>
-              {{item.status}}
+              {{item.status.value}}
             </td>
             <td>
               <form method="post" action="{{ url_for('delete_task') }}">
@@ -39,10 +39,10 @@
           {%for item in completed_items %}
           <tr>
             <td>
-              {{item.title}}
+              {{item.name}}
             </td>
             <td>
-              {{item.status}}
+              {{item.status.value}}
             </td>
             <td>
               <form method="post" action="{{ url_for('delete_task') }}">
