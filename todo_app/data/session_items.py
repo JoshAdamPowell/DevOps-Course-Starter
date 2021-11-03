@@ -1,8 +1,9 @@
 from flask import session
+from ..enums.task_status import Status
 
 _DEFAULT_ITEMS = [
-    { 'id': 1, 'status': 'Not Started', 'title': 'List saved todo items' },
-    { 'id': 2, 'status': 'Not Started', 'title': 'Allow new items to be added' }
+    { 'id': 1, 'status': Status.NOT_STARTED , 'title': 'List saved todo items' },
+    { 'id': 2, 'status': Status.NOT_STARTED, 'title': 'Allow new items to be added' }
 ]
 
 
@@ -45,7 +46,7 @@ def add_item(title):
     # Determine the ID for the item based on that of the previously added item
     id = items[-1]['id'] + 1 if items else 0
 
-    item = { 'id': id, 'title': title, 'status': 'Not Started' }
+    item = { 'id': id, 'title': title, 'status': Status.NOT_STARTED.value }
 
     # Add the item to the list
     items.append(item)
@@ -67,3 +68,13 @@ def save_item(item):
     session['items'] = updated_items
 
     return item
+
+def delete_item(id):
+    """
+    Deletes an item from the session
+    Args:
+        item: The id of the item to delete.
+    """
+    existing_items = get_items()
+    updated_items = [item for item in existing_items if item["id"] != int(id)]
+    session["items"] = updated_items
